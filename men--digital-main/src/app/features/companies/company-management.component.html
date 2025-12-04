@@ -113,4 +113,18 @@
       </ng-template>
     </section>
   </div>
+
+  <section class="qr-modal" *ngIf="showQrModal()">
+    <div class="qr-modal__content">
+      <h3>QR del menú</h3>
+      <p class="qr-modal__url">{{ currentQrUrl() }}</p>
+      <img class="qr-modal__image" [src]="currentQrUrl() ?? ''" alt="Código QR del menú" />
+
+      <div class="qr-modal__actions">
+        <button type="button" (click)="copyQrLink()">Copiar enlace</button>
+        <button type="button" (click)="downloadQrImage()">Descargar JPG</button>
+        <button type="button" class="secondary" (click)="closeQrModal()">Cerrar</button>
+      </div>
+    </div>
+  </section>
 </section>

@@ -22,6 +22,8 @@ export class CompanyManagementComponent {
   readonly selectedCompanyId = signal<string | null>(null);
   readonly feedbackMessage = signal<string | null>(null);
   readonly isSaving = signal(false);
+  readonly showQrModal = signal(false);
+  readonly currentQrUrl = signal<string | null>(null);
 
   /** 🔥 BASE URL del backend para generar QR */
   readonly qrBaseUrl = `${environment.apiBaseUrl}/qrs/menu`;
@@ -99,6 +101,52 @@ export class CompanyManagementComponent {
   /** 🔥 Método para abrir o descargar el QR */
   openQr(companyId: string) {
     const url = `${this.qrBaseUrl}/${companyId}`;
-    window.open(url, '_blank');
+    this.currentQrUrl.set(url);
+    this.showQrModal.set(true);
+  }
+
+  closeQrModal() {
+    this.showQrModal.set(false);
+    this.currentQrUrl.set(null);
+  }
+
+  async copyQrLink() {
+    const url = this.currentQrUrl();
+    if (!url) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch (error) {
+      const textarea = document.createElement('textarea');
+      textarea.value = url;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+  }
+
+  async downloadQrImage() {
+    const url = this.currentQrUrl();
+    if (!url) {
+      return;
+    }
+
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = 'codigo-qr.jpg';
+      link.click();
+      URL.revokeObjectURL(objectUrl);
+    } catch (error) {
+      console.error('No se pudo descargar el QR', error);
+    }
   }
 }

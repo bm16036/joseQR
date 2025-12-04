@@ -44,3 +44,71 @@
   color: #6b7280;
   font-size: 0.75rem;
 }
+
+.qr-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.qr-modal__content {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  width: min(480px, 90vw);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.qr-modal__url {
+  word-break: break-all;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+.qr-modal__image {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(17, 24, 39, 0.1);
+  object-fit: cover;
+  background: #f9fafb;
+  padding: 0.75rem;
+}
+
+.qr-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.qr-modal__actions button {
+  padding: 0.65rem 1rem;
+  border-radius: 0.65rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.08s ease, box-shadow 0.12s ease;
+}
+
+.qr-modal__actions button:not(.secondary) {
+  background: #111827;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(17, 24, 39, 0.18);
+}
+
+.qr-modal__actions button.secondary {
+  background: #e5e7eb;
+  color: #111827;
+  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.08);
+}
+
+.qr-modal__actions button:active {
+  transform: translateY(1px);
+}
