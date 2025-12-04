@@ -23,10 +23,13 @@ export class CompanyManagementComponent {
   readonly feedbackMessage = signal<string | null>(null);
   readonly isSaving = signal(false);
   readonly showQrModal = signal(false);
-  readonly currentQrUrl = signal<string | null>(null);
+  readonly qrImageUrl = signal<string | null>(null);
+  readonly menuLink = signal<string | null>(null);
 
   /** 🔥 BASE URL del backend para generar QR */
   readonly qrBaseUrl = `${environment.apiBaseUrl}/qrs/menu`;
+  /** URL base del frontend para construir el enlace público del menú */
+  readonly menuBaseUrl = `${environment.frontendBaseUrl}/menu`;
 
   readonly companyForm = this.fb.nonNullable.group({
     taxId: ['', [Validators.required, Validators.pattern(/^\d{11,13}$/)]],
@@ -100,18 +103,22 @@ export class CompanyManagementComponent {
 
   /** 🔥 Método para abrir o descargar el QR */
   openQr(companyId: string) {
-    const url = `${this.qrBaseUrl}/${companyId}`;
-    this.currentQrUrl.set(url);
+    const qrImageUrl = `${this.qrBaseUrl}/${companyId}`;
+    const menuLink = `${this.menuBaseUrl}/${companyId}`;
+
+    this.qrImageUrl.set(qrImageUrl);
+    this.menuLink.set(menuLink);
     this.showQrModal.set(true);
   }
 
   closeQrModal() {
     this.showQrModal.set(false);
-    this.currentQrUrl.set(null);
+    this.qrImageUrl.set(null);
+    this.menuLink.set(null);
   }
 
   async copyQrLink() {
-    const url = this.currentQrUrl();
+    const url = this.menuLink();
     if (!url) {
       return;
     }
@@ -131,7 +138,7 @@ export class CompanyManagementComponent {
   }
 
   async downloadQrImage() {
-    const url = this.currentQrUrl();
+    const url = this.qrImageUrl();
     if (!url) {
       return;
     }
