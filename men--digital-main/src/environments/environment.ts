@@ -5,6 +5,10 @@ export const environment = {
    */
   apiBaseUrl: 'http://localhost:8080/api',
   /**
+   * URL base del frontend para construir enlaces públicos.
+   */
+  frontendBaseUrl: 'http://localhost:4200',
+  /**
    * Permite trabajar con datos simulados mientras el backend se integra.
    * Cambia a `false` cuando los endpoints estén listos.
    */
