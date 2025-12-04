@@ -1,0 +1,41 @@
+<div class="menu-container">
+
+  <header class="menu-header">
+    <h1>Menú</h1>
+    <p>Empresa: {{ companyId }}</p>
+  </header>
+
+  <!-- Categorías -->
+  <section class="categories">
+    <h2>Categorías</h2>
+
+    <div class="category-list">
+      <button
+        *ngFor="let c of categories()"
+        class="category-btn"
+        [class.active]="selectedCategoryId() === c.id"
+        (click)="loadProductsByCategory(c.id)"
+      >
+        {{ c.nombre }}
+      </button>
+    </div>
+  </section>
+
+  <!-- Productos -->
+  <section class="products" *ngIf="products().length > 0">
+    <h2>Productos</h2>
+
+    <div class="product-list">
+      <div class="product-card" *ngFor="let p of products()">
+        <h3>{{ p.nombre }}</h3>
+        <p class="description">{{ p.descripcion }}</p>
+        <p class="price">$ {{ p.precio }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="selectedCategoryId() && products().length == 0">
+    <p>No hay productos en esta categoría.</p>
+  </section>
+
+</div>

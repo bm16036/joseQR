@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 8080
+app:
+  frontend-base-url: "http://localhost:4200"
+  jwt:
+    secret: ${APP_JWT_SECRET:CHANGE_ME_32_CHARS_MIN}
+    expiration-ms: 86400000
+cors:
+  allowed-origins: ${CORS_ORIGIN:http://localhost:4200}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

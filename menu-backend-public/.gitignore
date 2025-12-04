@@ -1,0 +1,111 @@
+# ================================
+# 📦 Build & Dependency directories
+# ================================
+/target/
+!/src/main/resources/
+!/src/test/resources/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Maven
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.properties
+dependency-reduced-pom.xml
+
+# ================================
+# 🧠 IDE / Editor Settings
+# ================================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# VS Code
+.vscode/
+.history/
+*.code-workspace
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# ================================
+# ⚙️ OS-specific files
+# ================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+
+# ================================
+# 🔐 Security & Credentials
+# ================================
+*.env
+.env
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
+secret/
+secrets/
+config/application-local.properties
+config/application-dev.properties
+src/main/resources/application-local.properties
+src/main/resources/application-dev.properties
+
+# ================================
+# 🐳 Docker & Containers
+# ================================
+*.pid
+*.log
+*.tmp
+*.bak
+*.swp
+docker-compose.override.yml
+.dockerignore
+
+# ================================
+# 🧪 Tests / Reports / Coverage
+# ================================
+test-output/
+surefire-reports/
+failsafe-reports/
+jacoco.exec
+jacoco-report/
+coverage/
+*.lcov
+
+# ================================
+# 🪣 Cache / Temporary files
+# ================================
+*.tmp
+*.swp
+*.swo
+*.bak
+*.orig
+*~
+logs/
+*.log
+tmp/
+.cache/
+.env.local
+node_modules/

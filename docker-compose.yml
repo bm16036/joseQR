@@ -1,0 +1,35 @@
+
+
+services:
+  backend:
+    build: ./menu-backend-public
+    container_name: menu-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: ${DB_URL}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASS}
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      APP_FRONTEND_BASE_URL: http://localhost:4200
+    networks:
+      - menunet
+    restart: unless-stopped
+
+  frontend:
+    build: ./men--digital-main    
+    container_name: menu-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - menunet
+    restart: unless-stopped
+
+networks:
+  menunet:
+    driver: bridge

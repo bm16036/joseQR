@@ -1,0 +1,1 @@
+package com.menudigital.menuapi.menu.repo; import com.menudigital.menuapi.menu.domain.Category; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface CategoryRepository extends JpaRepository<Category, UUID>{ List<Category> findByCompanyIdOrderByNameAsc(UUID companyId);}
