@@ -1,3 +1,9 @@
 @use '../../styles/feature-layout' as feature;
 
 @include feature.feature-shell;
+
+.feature__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
