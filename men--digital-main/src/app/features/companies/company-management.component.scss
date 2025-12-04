@@ -2,6 +2,12 @@
 
 @include feature.feature-shell;
 
+.feature__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .company-info {
   display: grid;
   grid-template-columns: auto 1fr;
