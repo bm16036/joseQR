@@ -14,9 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -51,6 +55,27 @@ public class ProductServiceImpl implements ProductService {
                 .filter(product -> menuId == null || product.getMenus().stream().anyMatch(menu -> menu.getId().equals(menuId)))
                 .peek(product -> product.getMenus().size())
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<UUID, Map<UUID, List<Product>>> listGroupedByMenuAndCategory(UUID companyId) {
+        var groupedProducts = new HashMap<UUID, Map<UUID, List<Product>>>();
+
+        productRepository.findByCompanyIdWithMenus(companyId).stream()
+                .peek(product -> product.getMenus().size())
+                .sorted(Comparator.comparing(Product::getName, String.CASE_INSENSITIVE_ORDER))
+                .forEach(product -> {
+                    var categoryId = product.getCategory().getId();
+
+                    product.getMenus().forEach(menu -> {
+                        var productsByCategory = groupedProducts.computeIfAbsent(menu.getId(), ignored -> new HashMap<>());
+                        var products = productsByCategory.computeIfAbsent(categoryId, ignored -> new ArrayList<>());
+                        products.add(product);
+                    });
+                });
+
+        return groupedProducts;
     }
 
     @Override
