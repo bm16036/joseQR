@@ -1,41 +1,41 @@
 <div class="menu-container">
-
   <header class="menu-header">
-    <h1>Menú</h1>
-    <p>Empresa: {{ companyId }}</p>
+    <div>
+      <p class="eyebrow">Menú público</p>
+      <h1>{{ details()?.menu?.name || 'Menú' }}</h1>
+      <p class="muted">Código: {{ menuId }}</p>
+    </div>
   </header>
 
-  <!-- Categorías -->
-  <section class="categories">
-    <h2>Categorías</h2>
-
-    <div class="category-list">
-      <button
-        *ngFor="let c of categories()"
-        class="category-btn"
-        [class.active]="selectedCategoryId() === c.id"
-        (click)="loadProductsByCategory(c.id)"
-      >
-        {{ c.nombre }}
-      </button>
-    </div>
+  <section *ngIf="isLoading()" class="info-card">
+    <p>Cargando el menú...</p>
   </section>
 
-  <!-- Productos -->
-  <section class="products" *ngIf="products().length > 0">
-    <h2>Productos</h2>
-
-    <div class="product-list">
-      <div class="product-card" *ngFor="let p of products()">
-        <h3>{{ p.nombre }}</h3>
-        <p class="description">{{ p.descripcion }}</p>
-        <p class="price">$ {{ p.precio }}</p>
-      </div>
-    </div>
+  <section *ngIf="!isLoading() && error()" class="info-card error">
+    <p>{{ error() }}</p>
   </section>
 
-  <section *ngIf="selectedCategoryId() && products().length == 0">
-    <p>No hay productos en esta categoría.</p>
-  </section>
+  <ng-container *ngIf="!isLoading() && !error()">
+    <ng-container *ngIf="hasProducts(); else emptyState">
+      <section class="category" *ngFor="let category of details()?.categories">
+        <h2>{{ category.name }}</h2>
 
+        <div class="product-list">
+          <article class="product-card" *ngFor="let product of category.products">
+            <div>
+              <h3>{{ product.name }}</h3>
+              <p class="description">{{ product.description || 'Sin descripción' }}</p>
+            </div>
+            <p class="price">$ {{ product.price | number:'1.2-2' }}</p>
+          </article>
+        </div>
+      </section>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <section class="info-card">
+        <p>No hay productos disponibles para este menú.</p>
+      </section>
+    </ng-template>
+  </ng-container>
 </div>

@@ -1,72 +1,92 @@
 .menu-container {
-  padding: 20px;
-  max-width: 900px;
+  padding: 24px;
+  max-width: 980px;
   margin: auto;
   font-family: Arial, sans-serif;
+  color: #1f2937;
 }
 
 .menu-header {
-  text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    color: #6b7280;
+    margin: 0 0 8px;
+  }
 
   h1 {
-    margin: 0;
+    margin: 0 0 6px;
     font-size: 32px;
+    line-height: 1.2;
+    color: #111827;
+  }
+
+  .muted {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
   }
 }
 
-.categories {
-  margin-bottom: 25px;
+.info-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  color: #111827;
 
-  .category-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .category-btn {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: none;
-    background-color: #e7e7e7;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-
-  .category-btn.active,
-  .category-btn:hover {
-    background-color: #4caf50;
-    color: white;
+  &.error {
+    border-color: #fca5a5;
+    background: #fef2f2;
+    color: #991b1b;
   }
 }
 
-.products {
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 15px;
+.category {
+  margin-bottom: 28px;
+
+  h2 {
+    margin: 0 0 16px;
+    font-size: 22px;
+    color: #111827;
+  }
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.product-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+
+  h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    color: #111827;
   }
 
-  .product-card {
-    padding: 15px;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+  .description {
+    margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+  }
 
-    h3 {
-      margin: 0 0 10px 0;
-      font-size: 20px;
-    }
-
-    .description {
-      font-size: 14px;
-      color: #666;
-    }
-
-    .price {
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 18px;
-    }
+  .price {
+    margin: 0;
+    font-weight: 700;
+    color: #111827;
   }
 }
