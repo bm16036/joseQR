@@ -4,6 +4,6 @@ export const environment = {
   /**
    * URL base del frontend desplegado para construir enlaces públicos.
    */
-  frontendBaseUrl: 'http://localhost',
+  frontendBaseUrl: 'http://localhost:4200',
   useMockData: false
 };
