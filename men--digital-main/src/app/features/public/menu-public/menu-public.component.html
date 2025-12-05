@@ -5,37 +5,46 @@
     <p>Empresa: {{ companyId }}</p>
   </header>
 
-  <!-- Categorías -->
-  <section class="categories">
-    <h2>Categorías</h2>
+  <ng-container *ngIf="!isLoading(); else loading">
+    <ng-container *ngIf="menu().length > 0; else emptyMenu">
+      <article class="menu-card" *ngFor="let m of menu()">
+        <header class="menu-section-header">
+          <h2>{{ m.nombre }}</h2>
+          <p class="menu-description" *ngIf="m.descripcion">{{ m.descripcion }}</p>
+        </header>
 
-    <div class="category-list">
-      <button
-        *ngFor="let c of categories()"
-        class="category-btn"
-        [class.active]="selectedCategoryId() === c.id"
-        (click)="loadProductsByCategory(c.id)"
-      >
-        {{ c.nombre }}
-      </button>
-    </div>
-  </section>
+        <div class="menu-categories">
+          <section class="category-block" *ngFor="let category of m.categorias">
+            <header class="category-header">
+              <h3>{{ category.nombre }}</h3>
+              <p class="category-description" *ngIf="category.descripcion">{{ category.descripcion }}</p>
+            </header>
 
-  <!-- Productos -->
-  <section class="products" *ngIf="products().length > 0">
-    <h2>Productos</h2>
+            <ng-container *ngIf="category.productos.length > 0; else emptyCategory">
+              <div class="product-list">
+                <article class="product-card" *ngFor="let product of category.productos">
+                  <h4>{{ product.nombre }}</h4>
+                  <p class="description" *ngIf="product.descripcion">{{ product.descripcion }}</p>
+                  <p class="price" *ngIf="product.precio !== undefined">$ {{ product.precio }}</p>
+                </article>
+              </div>
+            </ng-container>
+          </section>
+        </div>
+      </article>
+    </ng-container>
+  </ng-container>
 
-    <div class="product-list">
-      <div class="product-card" *ngFor="let p of products()">
-        <h3>{{ p.nombre }}</h3>
-        <p class="description">{{ p.descripcion }}</p>
-        <p class="price">$ {{ p.precio }}</p>
-      </div>
-    </div>
-  </section>
+  <ng-template #loading>
+    <p class="helper-text">Cargando menú...</p>
+  </ng-template>
 
-  <section *ngIf="selectedCategoryId() && products().length == 0">
-    <p>No hay productos en esta categoría.</p>
-  </section>
+  <ng-template #emptyMenu>
+    <p class="helper-text">No hay menús disponibles para esta empresa.</p>
+  </ng-template>
+
+  <ng-template #emptyCategory>
+    <p class="helper-text">No hay productos en esta categoría.</p>
+  </ng-template>
 
 </div>

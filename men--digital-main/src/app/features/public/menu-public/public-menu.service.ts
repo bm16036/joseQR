@@ -16,6 +16,10 @@ export class PublicMenuService {
     return this.http.get<any[]>(`${this.baseUrl}/companies/${companyId}/menu`);
   }
 
+  getProductsByCompany(companyId: string) {
+    return this.http.get<any[]>(`${this.baseUrl}/companies/${companyId}/products`);
+  }
+
   getProductsByCategory(categoryId: string) {
     return this.http.get<any[]>(`${this.baseUrl}/categories/${categoryId}/products`);
   }

@@ -15,58 +15,88 @@
   }
 }
 
-.categories {
-  margin-bottom: 25px;
+.menu-card {
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  background-color: #fafafa;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
 
-  .category-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+.menu-section-header {
+  margin-bottom: 16px;
+
+  h2 {
+    margin: 0 0 6px 0;
+    font-size: 24px;
   }
 
-  .category-btn {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: none;
-    background-color: #e7e7e7;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-
-  .category-btn.active,
-  .category-btn:hover {
-    background-color: #4caf50;
-    color: white;
+  .menu-description {
+    margin: 0;
+    color: #555;
   }
 }
 
-.products {
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 15px;
+.menu-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.category-block {
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+  background-color: #fff;
+}
+
+.category-header {
+  margin-bottom: 10px;
+
+  h3 {
+    margin: 0;
+    font-size: 20px;
   }
 
-  .product-card {
-    padding: 15px;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-
-    h3 {
-      margin: 0 0 10px 0;
-      font-size: 20px;
-    }
-
-    .description {
-      font-size: 14px;
-      color: #666;
-    }
-
-    .price {
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 18px;
-    }
+  .category-description {
+    margin: 6px 0 0 0;
+    color: #666;
+    font-size: 14px;
   }
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.product-card {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+
+  h4 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+  }
+
+  .description {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .price {
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+.helper-text {
+  color: #666;
+  text-align: center;
+  margin: 20px 0;
 }
