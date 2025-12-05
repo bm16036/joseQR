@@ -17,4 +17,10 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
             "join fetch p.menus m " +
             "where p.company.id = :companyId")
     List<Product> findByCompanyIdWithMenus(UUID companyId);
+
+    @Query("select distinct p from Product p " +
+            "join fetch p.category c " +
+            "join fetch p.menus m " +
+            "where p.category.id = :categoryId")
+    List<Product> findByCategoryIdWithMenus(UUID categoryId);
 }

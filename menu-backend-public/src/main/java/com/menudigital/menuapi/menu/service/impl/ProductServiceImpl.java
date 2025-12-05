@@ -39,12 +39,12 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> list(UUID companyId, UUID categoryId, UUID menuId) {
         List<Product> products;
 
-        if (menuId != null) {
-            products = productRepository.findByMenusId(menuId);
+        if (companyId != null) {
+            products = productRepository.findByCompanyIdWithMenus(companyId);
         } else if (categoryId != null) {
-            products = productRepository.findByCategoryId(categoryId);
-        } else if (companyId != null) {
-            products = productRepository.findByCompanyId(companyId);
+            products = productRepository.findByCategoryIdWithMenus(categoryId);
+        } else if (menuId != null) {
+            products = productRepository.findByMenusId(menuId);
         } else {
             products = productRepository.findAll();
         }
