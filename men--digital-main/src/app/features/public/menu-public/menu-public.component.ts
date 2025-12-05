@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { PublicMenuService } from './public-menu.service';
+import { MenuDetails, PublicMenuService } from './public-menu.service';
 
 @Component({
   selector: 'app-menu-public',
@@ -16,35 +16,42 @@ export class MenuPublicComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly publicMenuService = inject(PublicMenuService);
 
-  companyId = '';
-  categories = signal<any[]>([]);
-  menu = signal<any[]>([]);
-  products = signal<any[]>([]);
-  selectedCategoryId = signal<string | null>(null);
+  readonly menuId = this.route.snapshot.paramMap.get('menuId') ?? '';
+  readonly isLoading = signal(false);
+  readonly error = signal<string | null>(null);
+  readonly details = signal<MenuDetails | null>(null);
+
+  readonly hasProducts = computed(() => {
+    const info = this.details();
+    return !!info && info.categories.some((category) => category.products.length > 0);
+  });
 
   constructor() {
-    this.companyId = this.route.snapshot.paramMap.get('companyId') ?? '';
-
-    this.loadCategories();
     this.loadMenu();
   }
 
-  loadCategories() {
-    this.publicMenuService.getCategories(this.companyId).subscribe((data: any[]) => {
-      this.categories.set(data);
-    });
-  }
+  private loadMenu() {
+    if (!this.menuId) {
+      this.error.set('No se encontró el menú solicitado.');
+      return;
+    }
 
-  loadMenu() {
-    this.publicMenuService.getMenu(this.companyId).subscribe((data: any[]) => {
-      this.menu.set(data);
-    });
-  }
+    this.isLoading.set(true);
+    this.error.set(null);
 
-  loadProductsByCategory(categoryId: string) {
-    this.selectedCategoryId.set(categoryId);
-    this.publicMenuService.getProductsByCategory(categoryId).subscribe((data: any[]) => {
-      this.products.set(data);
+    this.publicMenuService.getMenuDetails(this.menuId).subscribe({
+      next: (data) => {
+        if (!data.menu) {
+          this.error.set('No se encontró el menú solicitado.');
+        }
+
+        this.details.set(data);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.error.set('No se pudo cargar el menú. Inténtalo de nuevo más tarde.');
+        this.isLoading.set(false);
+      }
     });
   }
 }
