@@ -15,13 +15,11 @@ import java.io.IOException;
 @Service
 public class QrCodeService {
 
-    // base URL donde está Angular
-    @Value("${APP_FRONTEND_BASE_URL}")
-    private String frontendBaseUrl;
+    @Value("${app.public-base-url:http://localhost:8080}")
+    private String publicBaseUrl;
 
     public byte[] generateMenuQr(String companyId) throws IOException, WriterException {
-        // URL que verá el cliente al escanear el QR
-        String url = String.format("%s/menu/%s", frontendBaseUrl, companyId);
+        String url = String.format("%s/api/public/companies/%s/menu.pdf", publicBaseUrl, companyId);
 
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix bitMatrix = writer.encode(url, BarcodeFormat.QR_CODE, 300, 300);
