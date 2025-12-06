@@ -12,6 +12,7 @@ backend:
       APP_JWT_SECRET: ${JWT_SECRET}
       CORS_ORIGIN: ${CORS_ORIGIN}
       APP_FRONTEND_BASE_URL: http://localhost:4200
+      APP_PUBLIC_BASE_URL: http://localhost:8080
     networks:
       - menunet
     restart: unless-stopped

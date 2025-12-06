@@ -13,6 +13,7 @@ server:
   port: 8080
 app:
   frontend-base-url: "http://localhost:4200"
+  public-base-url: "http://localhost:8080"
   jwt:
     secret: ${APP_JWT_SECRET:CHANGE_ME_32_CHARS_MIN}
     expiration-ms: 86400000
