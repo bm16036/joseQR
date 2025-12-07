@@ -89,7 +89,9 @@ public class ProductServiceImpl implements ProductService {
         product.setActive(request.active());
         product.setCategory(findCategory(request.categoryId()));
         product.setCompany(findCompany(request.companyId()));
-        product.setMenus(resolveMenus(request.menuIds()));
+        var menus = resolveMenus(request.menuIds());
+        product.getMenus().clear();
+        product.getMenus().addAll(menus);
         return productRepository.save(product);
     }
 
