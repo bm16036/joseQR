@@ -32,7 +32,7 @@ public class MenuPdfService {
 
     public byte[] generateCompanyMenuPdf(UUID companyId) {
         var company = companyService.get(companyId);
-        var menus = menuService.list(companyId);
+        var menus = menuService.listActive(companyId);
 
         try (var outputStream = new ByteArrayOutputStream()) {
             Document document = new Document();

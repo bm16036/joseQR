@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface MenuService {
     List<Menu> list(UUID companyId);
+    List<Menu> listActive(UUID companyId);
     Menu get(UUID id);
     Menu create(Menu menu);
     Menu update(UUID id, Menu menu);
