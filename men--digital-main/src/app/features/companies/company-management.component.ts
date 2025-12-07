@@ -24,6 +24,7 @@ export class CompanyManagementComponent {
   readonly isSaving = signal(false);
   readonly showQrModal = signal(false);
   readonly qrImageUrl = signal<string | null>(null);
+  readonly qrCompanyId = signal<string | null>(null);
   readonly menuLink = signal<string | null>(null);
   readonly menuFileName = signal<string | null>(null);
 
@@ -109,6 +110,7 @@ export class CompanyManagementComponent {
     const menuFileName = `menu-${companyId}.pdf`;
 
     this.qrImageUrl.set(qrImageUrl);
+    this.qrCompanyId.set(companyId);
     this.menuLink.set(menuLink);
     this.menuFileName.set(menuFileName);
     this.showQrModal.set(true);
@@ -117,6 +119,7 @@ export class CompanyManagementComponent {
   closeQrModal() {
     this.showQrModal.set(false);
     this.qrImageUrl.set(null);
+    this.qrCompanyId.set(null);
     this.menuLink.set(null);
     this.menuFileName.set(null);
   }
@@ -159,5 +162,69 @@ export class CompanyManagementComponent {
     } catch (error) {
       console.error('No se pudo descargar el menú en PDF', error);
     }
+  }
+
+  async downloadQrImage() {
+    const url = this.qrImageUrl();
+    if (!url) {
+      return;
+    }
+
+    try {
+      const response = await fetch(url);
+      const originalBlob = await response.blob();
+      const jpegBlob = await this.ensureJpegBlob(originalBlob);
+      const objectUrl = URL.createObjectURL(jpegBlob);
+      const link = document.createElement('a');
+      const companyId = this.qrCompanyId() ?? 'empresa';
+
+      link.href = objectUrl;
+      link.download = `qr-${companyId}.jpg`;
+      link.click();
+
+      URL.revokeObjectURL(objectUrl);
+    } catch (error) {
+      console.error('No se pudo descargar el código QR', error);
+    }
+  }
+
+  private async ensureJpegBlob(blob: Blob): Promise<Blob> {
+    if (blob.type === 'image/jpeg') {
+      return blob;
+    }
+
+    return new Promise((resolve) => {
+      const image = new Image();
+
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+
+        const context = canvas.getContext('2d');
+        if (!context) {
+          resolve(blob);
+          URL.revokeObjectURL(image.src);
+          return;
+        }
+
+        context.drawImage(image, 0, 0);
+        canvas.toBlob(
+          (jpegBlob) => {
+            resolve(jpegBlob ?? blob);
+            URL.revokeObjectURL(image.src);
+          },
+          'image/jpeg',
+          0.92
+        );
+      };
+
+      image.onerror = () => {
+        resolve(blob);
+        URL.revokeObjectURL(image.src);
+      };
+
+      image.src = URL.createObjectURL(blob);
+    });
   }
 }
