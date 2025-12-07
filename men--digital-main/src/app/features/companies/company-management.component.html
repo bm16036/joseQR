@@ -116,13 +116,14 @@
 
   <section class="qr-modal" *ngIf="showQrModal()">
     <div class="qr-modal__content">
-      <h3>QR del menú</h3>
-      <p class="qr-modal__url">{{ menuLink() }}</p>
-      <img class="qr-modal__image" [src]="qrImageUrl() ?? ''" alt="Código QR del menú" />
+      <h3>QR del menú en PDF</h3>
+      <p class="qr-modal__url">Archivo: {{ menuFileName() }}</p>
+      <p class="qr-modal__hint">Escanea el código para abrir el PDF público del menú y productos.</p>
+      <img class="qr-modal__image" [src]="qrImageUrl() ?? ''" alt="Código QR del menú en PDF" />
 
       <div class="qr-modal__actions">
-        <button type="button" (click)="copyQrLink()">Copiar enlace</button>
-        <button type="button" (click)="downloadQrImage()">Descargar JPG</button>
+        <button type="button" (click)="copyQrLink()">Copiar enlace al PDF</button>
+        <button type="button" (click)="downloadMenuPdf()">Descargar PDF</button>
         <button type="button" class="secondary" (click)="closeQrModal()">Cerrar</button>
       </div>
     </div>

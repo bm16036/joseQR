@@ -25,11 +25,12 @@ export class CompanyManagementComponent {
   readonly showQrModal = signal(false);
   readonly qrImageUrl = signal<string | null>(null);
   readonly menuLink = signal<string | null>(null);
+  readonly menuFileName = signal<string | null>(null);
 
   /** 🔥 BASE URL del backend para generar QR */
   readonly qrBaseUrl = `${environment.apiBaseUrl}/qrs/menu`;
-  /** URL base del frontend para construir el enlace público del menú */
-  readonly menuBaseUrl = `${environment.frontendBaseUrl}/menu`;
+  /** URL base pública para descargar el menú en PDF */
+  readonly menuPdfBaseUrl = `${environment.apiBaseUrl}/public/companies`;
 
   readonly companyForm = this.fb.nonNullable.group({
     taxId: ['', [Validators.required, Validators.pattern(/^\d{11,13}$/)]],
@@ -104,10 +105,12 @@ export class CompanyManagementComponent {
   /** 🔥 Método para abrir o descargar el QR */
   openQr(companyId: string) {
     const qrImageUrl = `${this.qrBaseUrl}/${companyId}`;
-    const menuLink = `${this.menuBaseUrl}/${companyId}`;
+    const menuLink = `${this.menuPdfBaseUrl}/${companyId}/menu.pdf`;
+    const menuFileName = `menu-${companyId}.pdf`;
 
     this.qrImageUrl.set(qrImageUrl);
     this.menuLink.set(menuLink);
+    this.menuFileName.set(menuFileName);
     this.showQrModal.set(true);
   }
 
@@ -115,6 +118,7 @@ export class CompanyManagementComponent {
     this.showQrModal.set(false);
     this.qrImageUrl.set(null);
     this.menuLink.set(null);
+    this.menuFileName.set(null);
   }
 
   async copyQrLink() {
@@ -137,8 +141,8 @@ export class CompanyManagementComponent {
     }
   }
 
-  async downloadQrImage() {
-    const url = this.qrImageUrl();
+  async downloadMenuPdf() {
+    const url = this.menuLink();
     if (!url) {
       return;
     }
@@ -149,11 +153,11 @@ export class CompanyManagementComponent {
       const objectUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = objectUrl;
-      link.download = 'codigo-qr.jpg';
+      link.download = this.menuFileName() ?? 'menu.pdf';
       link.click();
       URL.revokeObjectURL(objectUrl);
     } catch (error) {
-      console.error('No se pudo descargar el QR', error);
+      console.error('No se pudo descargar el menú en PDF', error);
     }
   }
 }
