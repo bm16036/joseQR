@@ -20,7 +20,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(readOnly = true)
     public List<Menu> list(UUID companyId) {
         if (companyId != null) {
-            return repository.findByCompanyIdOrderByNameAsc(companyId);
+            return repository.findByCompanyIdAndActiveTrueOrderByNameAsc(companyId);
         }
         return repository.findAll();
     }
