@@ -3,6 +3,9 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASS}
+    hikari:
+      max-lifetime: 1500000 # 25 minutes to stay below typical 30-minute DB idle timeout
+      idle-timeout: 600000  # 10 minutes to release idle connections sooner
   jpa:
     hibernate:
       ddl-auto: update
