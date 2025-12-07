@@ -20,9 +20,18 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(readOnly = true)
     public List<Menu> list(UUID companyId) {
         if (companyId != null) {
-            return repository.findByCompanyIdAndActiveTrueOrderByNameAsc(companyId);
+            return repository.findByCompanyIdOrderByNameAsc(companyId);
         }
         return repository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Menu> listActive(UUID companyId) {
+        if (companyId != null) {
+            return repository.findByCompanyIdAndActiveTrueOrderByNameAsc(companyId);
+        }
+        return repository.findAll().stream().filter(Menu::isActive).toList();
     }
 
     @Override

@@ -36,7 +36,7 @@ public class PublicMenuController {
 
     @GetMapping("/companies/{companyId}/menu")
     public List<MenuResponse> menu(@PathVariable UUID companyId) {
-        return menuService.list(companyId).stream().map(MenuResponse::from).toList();
+        return menuService.listActive(companyId).stream().map(MenuResponse::from).toList();
     }
 
     @GetMapping("/categories/{categoryId}/products")
